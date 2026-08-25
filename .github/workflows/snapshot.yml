@@ -71,5 +71,5 @@ jobs:
       - name: Publish Common
         run: ./gradlew :common:publish
 
-      - name: Build and publish Datagen
+      - name: Publish Datagen
         run: ./gradlew :datagen:publish

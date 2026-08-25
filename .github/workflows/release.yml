@@ -57,15 +57,15 @@ jobs:
           echo "datagen=datagen/build/libs/tessera-datagen-${MC_VERSION}-${VERSION}.jar" >> "$GITHUB_OUTPUT"
 
       # Build and publish Neoforge to maven
-      - name: Build and publish Neoforge
+      - name: Publish Neoforge
         run: ./gradlew :neoforge:publish
 
       # Build and publish Fabric to maven
-      - name: Build and publish Fabric
+      - name: Publish Fabric
         run: ./gradlew :fabric:publish
 
-      - name: Build and publish Common
+      - name: Publish Common
         run: ./gradlew :common:publish
 
-      - name: Build and publish Datagen
+      - name: Publish Datagen
         run: ./gradlew :datagen:publish
