@@ -1,0 +1,50 @@
+package com.mosaicmodding.tessera.datagen.smith.blockstate;
+
+import com.mosaicmodding.tessera.datagen.ItemModelSmithTypes;
+import com.mosaicmodding.tessera.datagen.providers.block.TesseraBlockStateSystem;
+import com.mosaicmodding.tessera.datagen.smith.itemmodel.ItemModelSmith;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
+
+@SuppressWarnings("unused")
+public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
+
+    public final ModularSmithStateSupplier<T> stateSupplier;
+
+    public ModularBlockStateSmith(Class<T> blockClass, ModularSmithStateSupplier<T> stateSupplier) {
+        super(blockClass);
+        this.stateSupplier = stateSupplier;
+    }
+
+    @SafeVarargs
+    public final void act(BlockStateSystemData<?> data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<? extends Block>... blocks) {
+        act(data, ItemModelSmithTypes.BLOCK_MODEL_ITEM, actor, modelFileSupplier, blocks);
+    }
+
+    @SafeVarargs
+    public final void act(BlockStateSystemData<?> data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<? extends Block>... blocks) {
+        act(data, itemModelSmith, actor, modelFileSupplier, List.of(blocks));
+    }
+
+    public void act(BlockStateSystemData<?> data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<? extends Block>> blocks) {
+        act(data, ItemModelSmithTypes.BLOCK_MODEL_ITEM, actor, modelFileSupplier, blocks);
+    }
+
+    public void act(BlockStateSystemData<?> data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<? extends Block>> blocks) {
+        for (Supplier<? extends Block> block : blocks) {
+            tryAct(data, itemModelSmith, block, (b, p) -> stateSupplier.act(b, p, actor, modelFileSupplier));
+        }
+    }
+
+    public interface ModularSmithStateSupplier<T extends Block> {
+        void act(T block, TesseraBlockStateSystem provider, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
+    }
+
+    public interface ModelFileSupplier {
+        ModelFile generateModel(Block block);
+    }
+}

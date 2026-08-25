@@ -1,0 +1,71 @@
+name: Deploy Release to Maven
+
+on: 
+  pull_request:
+    branches:
+    - latest-release
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository (default branch)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Make Gradle wrapper executable
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      # Set up JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 25
+          distribution: temurin
+
+      # Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Set environment variables
+        run: | 
+          echo "AUTH_KEY_SECRET=${{ secrets.AUTH_KEY_SECRET }}" >> $GITHUB_ENV
+          echo "MM_MAVEN_URL=https://maven.mosaicmodding.com/" >> $GITHUB_ENV
+
+      # Build mod files
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      # Get path of mod files
+      - name: Calculate artifact names
+        id: calculate_artifact_names
+        run: |
+          VERSION=$(awk -F '=' '/^version/ { print $2; }' gradle.properties | xargs)
+          MC_VERSION=$(awk -F '=' '/^minecraft_version/ { print $2; }' gradle.properties | xargs)
+          echo "neoforge=neoforge/build/libs/tessera-neoforge-${MC_VERSION}-${VERSION}.jar" >> "$GITHUB_OUTPUT"
+          echo "fabric=fabric/build/libs/tessera-fabric-${MC_VERSION}-${VERSION}.jar" >> "$GITHUB_OUTPUT"
+          echo "common=common/build/libs/tessera-common-${MC_VERSION}-${VERSION}.jar" >> "$GITHUB_OUTPUT"
+          echo "datagen=datagen/build/libs/tessera-datagen-${MC_VERSION}-${VERSION}.jar" >> "$GITHUB_OUTPUT"
+
+      # Build and publish Neoforge to maven
+      - name: Build and publish Neoforge
+        run: ./gradlew :neoforge:publish
+
+      # Build and publish Fabric to maven
+      - name: Build and publish Fabric
+        run: ./gradlew :fabric:publish
+
+      - name: Build and publish Common
+        run: ./gradlew :common:publish
+
+      - name: Build and publish Datagen
+        run: ./gradlew :datagen:publish
