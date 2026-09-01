@@ -19,6 +19,9 @@
       "com.mosaicmodding.tessera.TesseraFabric"
     ]
   },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": "*",

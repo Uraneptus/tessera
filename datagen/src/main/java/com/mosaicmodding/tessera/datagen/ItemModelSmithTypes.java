@@ -10,10 +10,13 @@ public class ItemModelSmithTypes {
     public static final ResourceLocation GENERATED = ResourceLocation.parse("item/generated");
     public static final ResourceLocation HANDHELD = ResourceLocation.parse("item/handheld");
     public static final ResourceLocation BUILTIN_ENTITY = ResourceLocation.parse("builtin/entity");
+    public static final ResourceLocation SPAWN_EGG = ResourceLocation.parse("item/template_spawn_egg");
 
     public static ItemModelSmith GENERATED_ITEM = ItemModelSmith.parentedItem(GENERATED, true);
     public static ItemModelSmith HANDHELD_ITEM = ItemModelSmith.parentedItem(HANDHELD, true);
     public static ItemModelSmith BUILTIN_ENTITY_ITEM = ItemModelSmith.parentedItem(BUILTIN_ENTITY, false);
+    public static ItemModelSmith SPAWN_EGG_ITEM = ItemModelSmith.parentedItem(SPAWN_EGG, false);
+
 
     public static ItemModelSmith NO_DATAGEN = new EmptyItemModelSmith();
 

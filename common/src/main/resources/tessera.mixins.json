@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.mosaicmodding.tessera.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_18",
+  "mixins": [
+    "BlockItemMixin",
+    "EntityMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "LevelRendererMixin",
+    "MultiPlayerGameModeMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
