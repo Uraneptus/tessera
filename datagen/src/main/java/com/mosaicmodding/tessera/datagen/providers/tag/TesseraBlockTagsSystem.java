@@ -30,8 +30,8 @@ public abstract class TesseraBlockTagsSystem extends BlockTagsProvider {
     public void addTagsFromBlockProperties(Set<Supplier<Block>> blocks) {
         var blockList = sorted(blocks);
         for (Block block : blockList) {
-            TesseraBlockProperties properties = (TesseraBlockProperties) block.properties();
-            TesseraDatagenBlockData data = properties.getDatagenData();
+            if (!(block.properties() instanceof TesseraBlockProperties tesseraProperties)) continue;
+            TesseraDatagenBlockData data = tesseraProperties.getDatagenData();
             for (TagKey<Block> tag : data.getTags()) {
                 tag(tag).add(block);
             }

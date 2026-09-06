@@ -34,8 +34,8 @@ public abstract class TesseraItemTagsSystem extends ItemTagsProvider {
             if (item.equals(Items.AIR)) {
                 continue;
             }
-            var properties = (TesseraBlockProperties) block.properties();
-            var data = properties.getDatagenData();
+            if (!(block.properties() instanceof TesseraBlockProperties tesseraProperties)) continue;
+            var data = tesseraProperties.getDatagenData();
             for (TagKey<Block> tag : data.getTags()) {
                 var itemTag = TagKey.create(Registries.ITEM, tag.location());
                 tag(itemTag).add(item);
