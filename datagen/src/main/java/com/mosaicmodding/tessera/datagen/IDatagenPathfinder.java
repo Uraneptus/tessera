@@ -20,8 +20,16 @@ public interface IDatagenPathfinder {
         return getBlockTexture(getBlockName(block));
     }
 
+    default ResourceLocation getVanillaBlockTexture(Block block) {
+        return getVanillaBlockTexture(getBlockName(block));
+    }
+
     default ResourceLocation getBlockTexture(String path) {
-        return path("block/" + path);
+        return path("block/" + path, false);
+    }
+
+    default ResourceLocation getVanillaBlockTexture(String path) {
+        return path("block/" + path, true);
     }
 
     default ResourceLocation getAbsoluteBlockTexture(String path) {
@@ -37,8 +45,16 @@ public interface IDatagenPathfinder {
         return getItemTexture(getItemName(item));
     }
 
+    default ResourceLocation getVanillaItemTexture(Item item) {
+        return getVanillaItemTexture(getItemName(item));
+    }
+
     default ResourceLocation getItemTexture(String path) {
-        return path("item/" + path);
+        return path("item/" + path, false);
+    }
+
+    default ResourceLocation getVanillaItemTexture(String path) {
+        return path("item/" + path, true);
     }
 
     default ResourceLocation getAbsoluteItemTexture(String path) {
@@ -53,7 +69,7 @@ public interface IDatagenPathfinder {
         return ResourceLocation.fromNamespaceAndPath(rl.getNamespace(), getFolder() + "/" + rl.getPath());
     }
 
-    default ResourceLocation path(String name) {
-        return ResourceLocation.fromNamespaceAndPath(getModId(), name);
+    default ResourceLocation path(String name, boolean vanilla) {
+        return vanilla ? ResourceLocation.withDefaultNamespace(name) : ResourceLocation.fromNamespaceAndPath(getModId(), name);
     }
 }

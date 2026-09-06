@@ -25,6 +25,10 @@ public class BlockStateSmithTypes {
         provider.simpleBlock(block);
     });
 
+    public static BlockStateSmith<Block> FULL_BLOCK_NO_ITEM = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.NO_DATAGEN, (block, provider) -> {
+        provider.simpleBlock(block);
+    });
+
     /**
      * Generates a grass block model and a blockstate to match.
      */
