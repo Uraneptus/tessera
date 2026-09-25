@@ -2,6 +2,7 @@ package com.mosaicmodding.tessera.datagen.providers;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -31,6 +32,13 @@ public class TesseraDefaultLangProvider extends LanguageProvider {
         blocks.forEach(block -> {
             String translation = toTitleCase(BuiltInRegistries.BLOCK.getKey(block.get()).getPath());
             add(block.get(), translation);
+        });
+    }
+
+    protected <I extends EntityType<?>> void forEntities(List<Supplier<I>> entities) {
+        entities.forEach(e -> {
+            String translation = toTitleCase(BuiltInRegistries.ENTITY_TYPE.getKey(e.get()).getPath());
+            add(e.get(), translation);
         });
     }
 

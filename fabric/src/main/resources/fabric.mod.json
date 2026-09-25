@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "com.mosaicmodding.tessera.TesseraFabric"
+    ],
+    "client": [
+      "com.mosaicmodding.tessera.TesseraFabricClient"
     ]
   },
   "mixins": [
