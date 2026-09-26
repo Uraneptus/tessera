@@ -1,6 +1,5 @@
 package com.mosaicmodding.tessera;
 
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -28,27 +27,21 @@ import java.util.function.ToIntFunction;
 public class TesseraBlockProperties extends BlockBehaviour.Properties {
 
     public enum BlockRenderType {
-        SOLID("solid", RenderType.solid()),
-        CUTOUT("cutout", RenderType.cutout()),
-        CUTOUT_MIPPED("cutout_mipped", RenderType.cutoutMipped()),
-        CUTOUT_MIPPED_ALL("cutout_mipped_all", RenderType.cutoutMipped()), //Mipped All is a neo only thing refer to NamedRenderTypeManager
-        TRANSLUCENT("translucent", RenderType.translucent()),
-        TRIPWIRE("tripwire", RenderType.tripwire());
+        SOLID("solid"),
+        CUTOUT("cutout"),
+        CUTOUT_MIPPED("cutout_mipped"),
+        CUTOUT_MIPPED_ALL("cutout_mipped_all"), //Mipped All is a neo only thing refer to NamedRenderTypeManager
+        TRANSLUCENT("translucent"),
+        TRIPWIRE("tripwire");
 
         private final ResourceLocation location;
-        private final RenderType actualType;
 
-        BlockRenderType(String name, RenderType actualType) {
+        BlockRenderType(String name) {
             this.location = ResourceLocation.withDefaultNamespace(name);
-            this.actualType = actualType;
         }
 
         public ResourceLocation getLocation() {
             return location;
-        }
-
-        public RenderType getActualType() {
-            return actualType;
         }
     }
 
