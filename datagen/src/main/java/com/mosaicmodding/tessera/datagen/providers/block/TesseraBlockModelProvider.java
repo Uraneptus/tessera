@@ -122,11 +122,23 @@ public final class TesseraBlockModelProvider extends BlockModelProvider implemen
     }
 
     public ModelFile orientableWithBottom(Block block) {
-        String name = getBlockName(block);
-        ResourceLocation side = getBlockTexture(name + "_side");
+        return this.orientableWithBottom(block, false);
+    }
+
+    /**
+     * Creates a ModelFile that has front, top, bottom and side.
+     * If stripPrefix is true, the first part of the block id will be removed when getting the textures for the side, the bottom and the top.
+     */
+    public ModelFile orientableWithBottom(Block block, boolean stripSuffix) {
+        var name = getBlockName(block);
+        var nameParts = name.split("_");
+        var suffix = nameParts[nameParts.length - 1];
+        var strippedName = stripSuffix ? name.replace("_" + suffix, "") : name;
+
+        ResourceLocation side = getBlockTexture(strippedName + "_side");
         ResourceLocation front = getBlockTexture(name + "_front");
-        ResourceLocation bottom = getBlockTexture(name + "_bottom");
-        ResourceLocation top = getBlockTexture(name + "_top");
+        ResourceLocation bottom = getBlockTexture(strippedName + "_bottom");
+        ResourceLocation top = getBlockTexture(strippedName + "_top");
         return orientableWithBottom(name, side, front, bottom, top);
     }
 

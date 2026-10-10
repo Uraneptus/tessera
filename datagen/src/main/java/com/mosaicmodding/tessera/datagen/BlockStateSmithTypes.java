@@ -67,7 +67,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a log block model and state, or any pillar-like block really.
      */
-    public static BlockStateSmith<RotatedPillarBlock> LOG_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (block, provider) -> {
+    public static BlockStateSmith<RotatedPillarBlock> ROTATED_PILLAR_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (block, provider) -> {
         provider.logBlock(block);
     });
 
@@ -76,6 +76,19 @@ public class BlockStateSmithTypes {
      */
     public static BlockStateSmith<RotatedPillarBlock> AXIS_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (block, provider) -> {
         provider.axisBlock(block);
+    });
+
+    public static BlockStateSmith<Block> BOTTOM_TOP_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+        provider.getVariantBuilder(block).forAllStates(state -> {
+            var model = provider.models().cubeBottomTop(block);
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
+    });
+
+
+    public static BlockStateSmith<Block> ORIENTABLE_WITH_BOTTOM_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+        var model = provider.models().orientableWithBottom(block, true);
+        provider.horizontalBlock(block, f -> model, 180);
     });
 
     /**
