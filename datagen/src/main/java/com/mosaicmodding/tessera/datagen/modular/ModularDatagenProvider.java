@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.mosaicmodding.tessera.TesseraCore;
+import com.mosaicmodding.tessera.TesseraDatagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -58,7 +59,7 @@ public class ModularDatagenProvider implements DataProvider {
                     try {
                         json  = builder.buildJson(dynamicOps, instance);
                     } catch (Exception e) {
-                        TesseraCore.LOG.warn("Failed to parse data from json body: {}", builder);
+                        TesseraDatagen.DATAGEN_LOGGER.warn("Failed to parse data from json body: {}", builder);
                     }
                     return Pair.of(json, paths.get(path).json(key));
                 }).thenComposeAsync((encoded) -> DataProvider.saveStable(cache, encoded.getFirst(), encoded.getSecond())));
