@@ -27,4 +27,15 @@ public abstract class TesseraBlockLootSubProvider extends BlockLootSubProvider {
                 .filter(b -> !(b.properties() instanceof TesseraBlockProperties blockProperties && blockProperties.getDatagenData().noLootDatagen))
                 .collect(Collectors.toList());
     }
+
+    public void addLootFromBlockProperties() {
+        for (Supplier<Block> entry : modBlockEntries()) {
+            var block = entry.get();
+            if (!(block.properties instanceof TesseraBlockProperties tesseraBlockProperties)) continue;
+            var data = tesseraBlockProperties.getDatagenData();
+            if (data.lootDropSelf) {
+                this.dropSelf(block);
+            }
+        }
+    }
 }

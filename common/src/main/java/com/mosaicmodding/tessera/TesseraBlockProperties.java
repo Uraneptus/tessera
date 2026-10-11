@@ -168,6 +168,12 @@ public class TesseraBlockProperties extends BlockBehaviour.Properties {
     }
 
     @DatagenOnly
+    public TesseraBlockProperties lootDropSelf() {
+        addDatagenData(TesseraDatagenBlockData::lootDropSelf);
+        return this;
+    }
+
+    @DatagenOnly
     public TesseraBlockProperties needsPickaxe() {
         addDatagenData(TesseraDatagenBlockData::needsPickaxe);
         return this;

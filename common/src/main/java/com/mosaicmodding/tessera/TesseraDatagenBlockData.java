@@ -20,6 +20,7 @@ public class TesseraDatagenBlockData {
 
     public ResourceLocation renderType;
     public boolean noLootDatagen = false;
+    public boolean lootDropSelf = false;
 
     public static TesseraDatagenBlockData copyDatagenDataFrom(TesseraBlockProperties from, TesseraBlockProperties to) {
         var copy = getDatagenData(from).copy();
@@ -64,6 +65,7 @@ public class TesseraDatagenBlockData {
         copy.tags.addAll(tags);
         copy.renderType = renderType;
         copy.noLootDatagen = noLootDatagen;
+        copy.lootDropSelf = lootDropSelf;
         return copy;
     }
 
@@ -106,6 +108,11 @@ public class TesseraDatagenBlockData {
 
     public TesseraDatagenBlockData noLootDatagen() {
         noLootDatagen = true;
+        return this;
+    }
+
+    public TesseraDatagenBlockData lootDropSelf() {
+        lootDropSelf = true;
         return this;
     }
 }
