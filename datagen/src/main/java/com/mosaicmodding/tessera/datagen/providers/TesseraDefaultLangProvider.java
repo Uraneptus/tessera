@@ -71,10 +71,11 @@ public class TesseraDefaultLangProvider extends LanguageProvider {
                 TesseraDatagen.DATAGEN_LOGGER.error("Registry key for {} of registry {} is null. Translation was not generated!", supplied, registry);
                 continue;
             }
-            var translation = toTitleCase(key.getPath());
+            var path = key.getPath();
             if (additionalStringProcessor != null) {
-                translation = additionalStringProcessor.apply(translation);
+                path = additionalStringProcessor.apply(path);
             }
+            var translation = toTitleCase(path);
             translationConsumer.accept(supplied, translation);
         }
     }
