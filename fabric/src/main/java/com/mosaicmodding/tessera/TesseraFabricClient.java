@@ -18,11 +18,11 @@ public class TesseraFabricClient implements ClientModInitializer {
 
     private RenderType parseRenderType(TesseraBlockProperties.BlockRenderType type) {
         return switch (type) {
-            case SOLID -> RenderType.solid();
             case CUTOUT -> RenderType.cutout();
             case CUTOUT_MIPPED, CUTOUT_MIPPED_ALL -> RenderType.cutoutMipped();
             case TRANSLUCENT -> RenderType.translucent();
             case TRIPWIRE -> RenderType.tripwire();
+            default -> RenderType.solid();
         };
     }
 }
