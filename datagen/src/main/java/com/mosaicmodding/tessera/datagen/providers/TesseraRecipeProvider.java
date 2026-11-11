@@ -147,6 +147,81 @@ public class TesseraRecipeProvider extends RecipeProvider {
                 .save(recipeOutput, path(resultName + "_from_campfire_smoking"));
     }
 
+    protected void stonecutterRecipes(ItemLike ingredient, ItemLike result, int resultCount, RecipeOutput recipeOutput) {
+        String outputName = getItemName(result) + "_from_" + getItemName(ingredient) + "_stonecutting";
+
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingredient), RecipeCategory.BUILDING_BLOCKS, result, resultCount)
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput, path(outputName));
+    }
+
+    protected void stairRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result, 4)
+                .define('#', ingredient).pattern("#  ").pattern("## ").pattern("###")
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void slabRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result, 6)
+                .define('#', ingredient).pattern("###")
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void wallRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result, 6)
+                .define('#', ingredient).pattern("###").pattern("###")
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void pillarRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result, 2)
+                .define('#', ingredient).pattern("#").pattern("#")
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void chiseledRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, result, 1)
+                .define('#', ingredient).pattern("#").pattern("#")
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void buttonRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, result)
+                .requires(ingredient)
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput);
+    }
+
+    protected void waxButtonRecipes(ItemLike ingredient, ItemLike result, RecipeOutput recipeOutput) {
+        String resultName = getItemName(result);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, result)
+                .requires(ingredient).requires(Items.HONEYCOMB)
+                .unlockedBy(getHasName(ingredient), has(ingredient))
+                .save(recipeOutput, path(resultName + "_from_honeycomb"));
+    }
+
+    protected void smithingRecipes(RecipeCategory category, ItemLike templateItem, ItemLike baseItem, ItemLike addition, ItemLike result, RecipeOutput recipeOutput) {
+        String resultName = getItemName(result);
+        SmithingTransformRecipeBuilder.smithing(
+                Ingredient.of(templateItem),
+                Ingredient.of(baseItem),
+                Ingredient.of(addition),
+                category,
+                result.asItem())
+                .unlocks(getHasName(addition), has(addition))
+                .save(recipeOutput, path(resultName));
+    }
+
+    protected void smithingTemplateRecipes(RecipeCategory category, ItemLike templateItem, ItemLike baseItem, ItemLike addition, ItemLike result, RecipeOutput recipeOutput) {
+        smithingRecipes(category, templateItem, baseItem, addition, result, recipeOutput);
+        copySmithingTemplate(recipeOutput, templateItem, baseItem);
+    }
+
     protected ResourceLocation path(String path) {
         return ResourceLocation.fromNamespaceAndPath(this.modId, path);
     }

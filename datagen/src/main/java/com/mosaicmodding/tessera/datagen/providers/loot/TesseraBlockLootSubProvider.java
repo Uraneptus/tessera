@@ -30,6 +30,7 @@ public abstract class TesseraBlockLootSubProvider extends BlockLootSubProvider {
 
     public void addLootFromBlockProperties() {
         for (Supplier<Block> entry : modBlockEntries()) {
+            if (this.map.containsKey(entry.get().getLootTable())) continue;
             var block = entry.get();
             if (!(block.properties instanceof TesseraBlockProperties tesseraBlockProperties)) continue;
             var data = tesseraBlockProperties.getDatagenData();
