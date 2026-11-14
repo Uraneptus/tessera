@@ -8,6 +8,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
+@Deprecated(forRemoval = true)
 public class TesseraBlockTagDatagen extends BlockTagsProvider {
     public TesseraBlockTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, TesseraCore.ID, existingFileHelper);

@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 @SuppressWarnings("NullableProblems")
+@Deprecated(forRemoval = true)
 public class TesseraItemTagDatagen extends TesseraItemTagsSystem {
     public TesseraItemTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockProvider, ExistingFileHelper existingFileHelper) {
         super(output, provider, blockProvider, TesseraCore.ID, existingFileHelper);
