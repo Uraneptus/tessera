@@ -42,6 +42,7 @@ public abstract class TesseraBlockLootSubProvider extends BlockLootSubProvider {
             }
             if (block instanceof DoorBlock) {
                 this.add(block, createDoorTable(block));
+                continue;
             }
             if (block instanceof SlabBlock) {
                 this.add(block, createSlabItemTable(block));
