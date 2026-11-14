@@ -13,6 +13,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static net.minecraft.tags.BlockTags.*;
@@ -38,10 +39,10 @@ public abstract class TesseraBlockTagsSystem extends BlockTagsProvider {
     }
 
     public void addCommonTags(Block block) {
-        addNameTag(PLANKS, block, true, "planks");
+        addNameTag(PLANKS, block, true, false, "planks");
         addNameTag(LOGS, block, RotatedPillarBlock.class, "log");
-        addNameTag(Tags.Blocks.STRIPPED_LOGS, block, RotatedPillarBlock.class, "log");
-        addNameTag(Tags.Blocks.STRIPPED_WOODS, block, RotatedPillarBlock.class, "stripped", "wood");
+        addNameTag(Tags.Blocks.STRIPPED_LOGS, block, RotatedPillarBlock.class, false, true, "stripped", "log");
+        addNameTag(Tags.Blocks.STRIPPED_WOODS, block, RotatedPillarBlock.class, false, true, "stripped", "wood");
 
         addClassTag(BUTTONS, WOODEN_BUTTONS, block, ButtonBlock.class);
         addClassTag(PRESSURE_PLATES, WOODEN_PRESSURE_PLATES, block, PressurePlateBlock.class);
@@ -86,23 +87,20 @@ public abstract class TesseraBlockTagsSystem extends BlockTagsProvider {
         addNameTag(tagKey, block, Block.class, checks);
     }
 
-    public void addNameTag(TagKey<Block> tagKey, Block block, boolean endsOnCheck, String... checks) {
-        addNameTag(tagKey, block, Block.class, endsOnCheck, checks);
+    public void addNameTag(TagKey<Block> tagKey, Block block, boolean endsOnCheck, boolean allMatch, String... checks) {
+        addNameTag(tagKey, block, Block.class, endsOnCheck, allMatch, checks);
     }
 
     @SuppressWarnings({"deprecation", "DataFlowIssue"})
     public void addNameTag(TagKey<Block> tagKey, Block block, Class<? extends Block> clazz, String... checks) {
-        if (clazz.isInstance(block)) {
-            var name = block.builtInRegistryHolder().getKey().location().getPath();
-            boolean matches = checks.length == 0 || Arrays.stream(checks).anyMatch(name::contains);
-            addConditionTag(tagKey, block, matches);
-        }
+        addNameTag(tagKey, block, clazz, false, false, checks);
     }
 
-    public void addNameTag(TagKey<Block> tagKey, Block block, Class<? extends Block> clazz, boolean endsOnCheck, String... checks) {
+    public void addNameTag(TagKey<Block> tagKey, Block block, Class<? extends Block> clazz, boolean endsOnCheck, boolean allMatch, String... checks) {
         if (clazz.isInstance(block)) {
             var name = block.builtInRegistryHolder().getKey().location().getPath();
-            boolean matches = checks.length == 0 || Arrays.stream(checks).anyMatch(endsOnCheck ? name::endsWith : name::contains);
+            Predicate<? super String> checkPredicates = !endsOnCheck ? name::contains : name::endsWith;
+            boolean matches = checks.length == 0 || !allMatch ? Arrays.stream(checks).anyMatch(checkPredicates) : Arrays.stream(checks).allMatch(checkPredicates);
             addConditionTag(tagKey, block, matches);
         }
     }
