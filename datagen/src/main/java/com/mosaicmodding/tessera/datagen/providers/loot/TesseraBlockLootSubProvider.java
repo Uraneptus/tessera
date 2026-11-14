@@ -6,6 +6,9 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.SlabBlock;
 
 import java.util.List;
 import java.util.Set;
@@ -32,6 +35,19 @@ public abstract class TesseraBlockLootSubProvider extends BlockLootSubProvider {
         for (Supplier<Block> entry : modBlockEntries()) {
             if (this.map.containsKey(entry.get().getLootTable())) continue;
             var block = entry.get();
+
+            if (block instanceof FlowerPotBlock) {
+                this.dropPottedContents(block);
+                continue;
+            }
+            if (block instanceof DoorBlock) {
+                this.add(block, createDoorTable(block));
+            }
+            if (block instanceof SlabBlock) {
+                this.add(block, createSlabItemTable(block));
+                continue;
+            }
+
             if (!(block.properties instanceof TesseraBlockProperties tesseraBlockProperties)) continue;
             var data = tesseraBlockProperties.getDatagenData();
             if (data.lootDropSelf) {
