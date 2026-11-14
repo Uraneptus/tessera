@@ -31,7 +31,7 @@ public class TesseraDatagen {
         boolean includeServer = event.includeServer();
 
         var blockTagDatagen = new TesseraBlockTagDatagen(packOutput, lookupProvider, existingFileHelper);
-        var itemTagDatagen = new TesseraItemTagDatagen(packOutput, lookupProvider, blockTagDatagen.contentsGetter(), existingFileHelper);
+        var itemTagDatagen = new TesseraItemTagDatagen(packOutput, lookupProvider, blockTagDatagen, existingFileHelper);
 
         event.getGenerator().addProvider(includeServer, blockTagDatagen);
         event.getGenerator().addProvider(includeServer, itemTagDatagen);
