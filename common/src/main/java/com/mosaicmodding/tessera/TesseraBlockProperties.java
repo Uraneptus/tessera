@@ -45,7 +45,7 @@ public class TesseraBlockProperties extends BlockBehaviour.Properties {
         }
     }
 
-    public BlockRenderType blockRenderType;
+    public BlockRenderType blockRenderType = BlockRenderType.SOLID;
 
     public TesseraBlockProperties() {
         super();
