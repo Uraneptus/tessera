@@ -245,11 +245,11 @@ public class BlockStateSmithTypes {
     });
 
     /**
-     * Generates a wooden sign block model and state. Works for both standing, and wall oriented signs.
+     * Generates a wooden sign block model and state. Works for both standing, and wall oriented signs and also for hanging sign variants
      */
     public static BlockStateSmith<SignBlock> WOODEN_SIGN_BLOCK = new BlockStateSmith<>(SignBlock.class, ItemModelSmithTypes.GENERATED_ITEM, (block, provider) -> {
         var name = provider.getBlockName(block);
-        var particleTextureName = name.replace("_wall", "").replace("_sign", "") + "_planks";
+        var particleTextureName = name.replace("_wall", "").replace("_sign", "").replace("_hanging", "") + "_planks";
         provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(provider.models().sign(name, provider.getBlockTexture(particleTextureName))).build());
     });
 
